@@ -24,29 +24,50 @@ body {
 }
 
 main {
-  @apply min-h-screen pt-10;
+  @apply min-h-screen pt-4 sm:pt-6 lg:pt-10;
 }
+
 h1 {
-  @apply max-sm:text-[3rem] text-6xl  text-gradient leading-tight xl:tracking-[-2px] font-semibold;
+  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gradient leading-tight xl:tracking-[-2px] font-semibold;
 }
 
 h2 {
-  @apply max-sm:text-xl text-3xl text-dark-200;
+  @apply text-lg sm:text-xl md:text-2xl lg:text-3xl text-dark-200 leading-relaxed;
 }
 
 label {
-  @apply text-dark-200;
+  @apply text-dark-200 font-medium;
 }
+
 input {
-  @apply w-full p-4 inset-shadow rounded-2xl focus:outline-none bg-white;
+  @apply w-full p-3 sm:p-4 inset-shadow rounded-2xl focus:outline-none bg-white border-2 border-transparent focus:border-blue-300 transition-all duration-200;
 }
 
 textarea {
-  @apply w-full p-4 inset-shadow rounded-2xl focus:outline-none bg-white;
+  @apply w-full p-3 sm:p-4 inset-shadow rounded-2xl focus:outline-none bg-white border-2 border-transparent focus:border-blue-300 transition-all duration-200;
 }
 
 form {
-  @apply flex flex-col items-start gap-8 w-full;
+  @apply flex flex-col items-start gap-6 sm:gap-8 w-full;
+}
+
+/* Accessibility improvements */
+*:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer components {
@@ -57,7 +78,7 @@ form {
     @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200 p-4 rounded-2xl;
   }
   .primary-button {
-    @apply primary-gradient text-white rounded-full px-4 py-2 cursor-pointer w-full;
+    @apply primary-gradient text-white rounded-full px-6 py-3 sm:px-8 sm:py-4 cursor-pointer w-full font-semibold text-base sm:text-lg transition-all duration-200 hover:shadow-lg focus:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .resume-nav {
     @apply flex flex-row justify-between items-center p-4 border-b border-gray-200;
@@ -75,10 +96,10 @@ form {
     @apply primary-gradient rounded-full py-4 px-8 cursor-pointer w-[600px] max-md:w-full text-3xl font-semibold text-white;
   }
   .main-section {
-    @apply flex flex-col items-center gap-8 pt-12 max-sm:mx-2 mx-15 pb-5;
+    @apply flex flex-col items-center gap-6 sm:gap-8 pt-8 sm:pt-12 px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 max-w-7xl mx-auto;
   }
   .page-heading {
-    @apply flex flex-col items-center gap-8 max-w-4xl text-center max-sm:gap-4;
+    @apply flex flex-col items-center gap-6 sm:gap-8 max-w-4xl text-center w-full;
   }
   .resumes-section {
     @apply flex flex-wrap max-md:flex-col max-md:gap-4 gap-6 items-start max-md:items-center w-full max-w-[1850px] justify-evenly;
@@ -106,6 +127,34 @@ form {
 
   .form-div {
     @apply flex flex-col gap-2 w-full items-start;
+  }
+  
+  /* Enhanced mobile-first responsive utilities */
+  .processing-container {
+    @apply flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-8;
+  }
+  
+  .processing-content {
+    @apply text-center max-w-2xl mx-auto space-y-6 sm:space-y-8;
+  }
+  
+  .processing-image {
+    @apply w-full max-w-sm sm:max-w-md h-auto object-contain mx-auto;
+  }
+  
+  /* Grid system for forms */
+  .form-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
+  }
+  
+  /* Enhanced button styles */
+  .btn-enhanced {
+    @apply transition-all duration-200 hover:shadow-lg focus:shadow-lg active:scale-95;
+  }
+  
+  /* Loading states */
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-gray-300 border-t-blue-600;
   }
 
   .uplader-drag-area {
@@ -148,5 +197,48 @@ form {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  input, textarea {
+    border: 2px solid currentColor;
+  }
+  
+  .primary-button {
+    border: 2px solid currentColor;
   }
 }

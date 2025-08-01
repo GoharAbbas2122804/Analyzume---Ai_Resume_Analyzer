@@ -1,13 +1,41 @@
-const ScoreCircle = ({ score = 75 }: { score: number }) => {
-  const radius = 40;
-  const stroke = 8;
+interface ScoreCircleProps {
+  score: number;
+  size?: 'small' | 'medium' | 'large';
+}
+
+const ScoreCircle = ({ score = 75, size = 'medium' }: ScoreCircleProps) => {
+  // Define size-specific values
+  const sizeConfig = {
+    small: {
+      containerSize: 'w-[80px] h-[80px]',
+      radius: 32,
+      stroke: 6,
+      fontSize: 'text-xs'
+    },
+    medium: {
+      containerSize: 'w-[100px] h-[100px]',
+      radius: 40,
+      stroke: 8,
+      fontSize: 'text-sm'
+    },
+    large: {
+      containerSize: 'w-[150px] h-[150px]',
+      radius: 60,
+      stroke: 10,
+      fontSize: 'text-lg font-bold'
+    }
+  };
+
+  const config = sizeConfig[size];
+  const radius = config.radius;
+  const stroke = config.stroke;
   const normalizedRadius = radius - stroke / 2;
   const circumference = 2 * Math.PI * normalizedRadius;
   const progress = score / 100;
   const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <div className="relative w-[100px] h-[100px]">
+    <div className={`relative ${config.containerSize}`}>
       <svg
         height="100%"
         width="100%"
@@ -45,7 +73,7 @@ const ScoreCircle = ({ score = 75 }: { score: number }) => {
 
       {/* Score and issues */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-semibold text-sm">{`${score}/100`}</span>
+        <span className={`font-semibold ${config.fontSize}`}>{`${score}/100`}</span>
       </div>
     </div>
   );
